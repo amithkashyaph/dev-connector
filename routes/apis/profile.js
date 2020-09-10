@@ -26,7 +26,7 @@ router.get("/me", authRequired, async (req, res) => {
         ],
       });
     }
-    res.json(profile);
+    return res.json(profile);
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -121,7 +121,7 @@ router.post(
       profileObject.social.facebook = facebook;
     }
 
-    // create profile
+    // find if profile exists
     try {
       let profile = await Profile.findOne({ user: req.user.id });
 
@@ -142,7 +142,7 @@ router.post(
       profile = new Profile(profileObject);
       await profile.save();
 
-      res.status(201).json(profile);
+      return res.status(201).json(profile);
     } catch (error) {
       console.error(error.message);
       res.status(500).json({
@@ -169,10 +169,8 @@ router.get("/", async (req, res) => {
   }
 });
 
-module.exports = router;
-
 // @route   GET api/profile/user/:userId
-// @desc    GET all profiles
+// @desc    GET profile of a single user
 // @access  Public
 router.get("/user/:userId", async (req, res) => {
   try {
@@ -267,7 +265,7 @@ router.put(
       profile.experience.unshift(newExperience);
 
       await profile.save();
-      res.status(200).json({ profile });
+      res.status(200).json(profile);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server error!");
@@ -297,8 +295,8 @@ router.delete("/experience/:experienceId", authRequired, async (req, res) => {
   }
 });
 
-// @route   PUT api/profile/experience
-// @desc    Updates a user's experience
+// @route   PUT api/profile/education
+// @desc    Updates a user's education
 // @access  Private
 router.put(
   "/education",
@@ -344,7 +342,7 @@ router.put(
       profile.education.unshift(newExperience);
 
       await profile.save();
-      res.status(200).json({ profile });
+      res.status(200).json(profile);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server error!");
@@ -401,3 +399,5 @@ router.get("/github/:username", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
+module.exports = router;

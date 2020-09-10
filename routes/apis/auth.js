@@ -15,9 +15,7 @@ router.get("/", authRequired, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
 
-    return res.status(200).json({
-      user,
-    });
+    return res.status(200).json(user);
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -34,7 +32,7 @@ router.get("/", authRequired, async (req, res) => {
 // @desc    Authenticates the user and sends back token
 // @access  Public
 router.post(
-  "/login",
+  "/",
   [
     check("email", "Email is required").isEmail(),
     check("password", "Password is required").exists(),
@@ -53,7 +51,7 @@ router.post(
     try {
       // Check for user
       const { email, password } = req.body;
-      let user = await User.findOne({ email }).select("-password");
+      let user = await User.findOne({ email });
 
       if (!user) {
         return res.status(400).json({
