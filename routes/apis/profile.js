@@ -377,7 +377,7 @@ router.delete("/education/:educationId", authRequired, async (req, res) => {
 // @access  Private
 router.get("/github/:username", async (req, res) => {
   try {
-    const response = await axios.get(
+    const { data } = await axios.get(
       `https://api.github.com/users/${
         req.params.username
       }/repos?per_page=5&sort=created:asc&client_id=${config.get(
@@ -388,8 +388,8 @@ router.get("/github/:username", async (req, res) => {
     if (!data) {
       return res.status(404).json({ msg: "Not GitHub profile found" });
     }
-
-    res.json(data);
+    console.log("I am executed");
+    return res.json(data);
   } catch (err) {
     console.error(err.message);
 

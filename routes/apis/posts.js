@@ -47,7 +47,7 @@ router.get("/", authRequired, async (req, res) => {
   try {
     const posts = await Post.find().sort({ date: -1 });
 
-    res.status(200).json({ posts });
+    res.status(200).json(posts);
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error!");
@@ -67,7 +67,7 @@ router.get("/:postId", authRequired, async (req, res) => {
       });
     }
 
-    res.status(200).json({ post });
+    res.status(200).json(post);
   } catch (error) {
     console.log(error);
 
