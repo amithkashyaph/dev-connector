@@ -1,0 +1,7 @@
+{
+  "mongoPassword": "KkY39CbCv1OZKLWB",
+  "mongoURI": "mongodb+srv://devconnector:KkY39CbCv1OZKLWB@dev-connector.fslq4.mongodb.net/dev-connector?retryWrites=true&w=majority",
+  "jwtSecret": "amithkashyaph",
+  "githubClient": "de2b701c342032e31221",
+  "githubSecret": "867cc41f1561c25edee81781c1476986f4cae5a0"
+}

@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 
 const connectDB = require("./config/db");
 
@@ -8,10 +9,6 @@ connectDB();
 
 // Initialize middleware
 app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.send("Welcome to Dev-Connector");
-});
 
 // Import routers
 const userRouter = require("./routes/apis/users");
@@ -24,6 +21,15 @@ app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/posts", postsRouter);
+
+// Serve the static assets
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 const PORT = process.env.PORT || 7000;
 
